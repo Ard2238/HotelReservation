@@ -20,8 +20,10 @@ public class HotelReservation {
         int weekday_rate = input.nextInt(); input.nextLine();
         System.out.println("Enter the weekend rates for Regular customers: ");
         int weekend_rate = input.nextInt(); input.nextLine();
+        System.out.println("Enter the ratings for the hotel");
+        int ratings = input.nextInt(); input.nextLine();
 
-        Hotel hotel = new Hotel(hotelName, weekday_rate, weekend_rate);
+        Hotel hotel = new Hotel(hotelName, weekday_rate, weekend_rate, ratings);
         hotelList.add(hotel);
         return hotelList;
     }
