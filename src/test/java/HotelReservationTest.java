@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.text.ParseException;
+import java.util.Map;
 
 public class HotelReservationTest {
     HotelReservation hotelReservation;
@@ -39,6 +40,14 @@ public class HotelReservationTest {
     @Test
     public void givenDateRange_ReturnCheapestHotel() throws ParseException {
         givenHotel_WhenAdded_ShoudlAddHotel();
-        Assert.assertEquals(910, hotelReservation.findCheapestHotel("Regular", "01-01-2000","10-01-2000"));
+        Map<String, Long> retrievedHotels = hotelReservation.findCheapestHotel("Regular", "01-01-2000","10-01-2000");
+        long value = retrievedHotels.get("LakeWood");
+        Assert.assertEquals(1020, value);
+    }
+
+    @Test
+    public void givenDateRange_ReturnCheapestHotel_MoreThanOne() throws ParseException {
+        givenHotel_WhenAdded_ShoudlAddHotel();
+        hotelReservation.findCheapestHotel("Regular", "11-09-2020", "12-09-2020");
     }
 }
