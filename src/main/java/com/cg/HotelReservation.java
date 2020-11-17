@@ -1,5 +1,6 @@
 package com.cg;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -98,6 +99,7 @@ public class HotelReservation {
             start.add(Calendar.DATE, 1);
             commence = start.getTime();
         }
+        hotel.setTotalPrice(price);
         return price;
     }
 
@@ -153,6 +155,15 @@ public class HotelReservation {
         return true;
     }
 
+    public int findCheapestBestRatedHotel(String customerType, String startDate, String endDate) throws ParseException {
+        for(Hotel hotel: hotelList){
+            calculateHotelPriceForGivenDates(hotel, startDate, endDate, customerType);
+        }
+        Hotel hotel = hotelList.stream().min((Comparator.comparingInt(Hotel::getTotalPrice).thenComparing(Hotel::getRatings))).get();
+        System.out.println("Hotel: " + hotel.getHotelName() + " Rating: " + hotel.getRatings() + " Price: " + hotel.getTotalPrice());
+        return hotel.getTotalPrice();
+    }
+
 
     public static void main(String[] args) {
         System.out.println(("Welcome to the Hotel Reservation Program"));
@@ -160,6 +171,5 @@ public class HotelReservation {
         HotelReservation hotelReservation = new HotelReservation();
         hotelReservation.addHotel();
         hotelReservation.addCustomer();
-        
     }
 }

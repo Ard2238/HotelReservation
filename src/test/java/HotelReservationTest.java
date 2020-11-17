@@ -63,4 +63,9 @@ public class HotelReservationTest {
     public void givenDateRange_ReturnCheapestHotelForRewardCustomer() throws ParseException {
         Assert.assertEquals(140, hotelReservation.findCheapestHotel("Reward", "11-09-2020", "12-09-2020"));
     }
+
+    @Test
+    public void givenDateRange_ReturnCheapestHotelUsingStreams_ForRewardCustomer() throws ParseException {
+        Assert.assertEquals(140, hotelReservation.findCheapestBestRatedHotel("Reward", "11-09-2020", "12-09-2020"));
+    }
 }
