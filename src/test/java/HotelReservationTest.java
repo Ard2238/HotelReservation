@@ -40,14 +40,18 @@ public class HotelReservationTest {
     @Test
     public void givenDateRange_ReturnCheapestHotel() throws ParseException {
         givenHotel_WhenAdded_ShoudlAddHotel();
-        Map<String, Long> retrievedHotels = hotelReservation.findCheapestHotel("Regular", "01-01-2000","10-01-2000");
-        long value = retrievedHotels.get("LakeWood");
-        Assert.assertEquals(1020, value);
+        Assert.assertEquals(1020, hotelReservation.findCheapestHotel("Regular", "01-01-2000","10-01-2000"));
     }
 
     @Test
+    //modified to return hotel with best ratings
     public void givenDateRange_ReturnCheapestHotel_MoreThanOne() throws ParseException {
         givenHotel_WhenAdded_ShoudlAddHotel();
         hotelReservation.findCheapestHotel("Regular", "11-09-2020", "12-09-2020");
+    }
+
+    @Test
+    public void givenDateRange_ReturnCheapestHotelWithBestRatings() throws ParseException {givenHotel_WhenAdded_ShoudlAddHotel();
+        Assert.assertEquals(200, hotelReservation.findCheapestHotel("Regular", "11-09-2020", "12-09-2020"));
     }
 }

@@ -40,10 +40,11 @@ public class HotelReservation {
         return customerHotelMap;
     }
 
-    public Map<String, Long> findCheapestHotel(String customerType, String startDate, String endDate) throws ParseException {
+    public long findCheapestHotel(String customerType, String startDate, String endDate) throws ParseException {
         Map<String, Long> cheapestHotels = new HashMap<>();
         long cheapestPrice = Long.MAX_VALUE;
         String hotelName = "";
+        int bestRatings  = 0;
         SimpleDateFormat sdf1 = new SimpleDateFormat("EEEE");
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -80,15 +81,15 @@ public class HotelReservation {
                 start.add(Calendar.DATE, 1);
                 commence = start.getTime();
             }
-            if(price <= cheapestPrice){
+            int rate = hotel.getRatings();
+            if(price <= cheapestPrice && rate > bestRatings){
                 cheapestPrice = price;
                 hotelName = hotel.getHotelName();
-                cheapestHotels.put(hotelName, cheapestPrice);
+                bestRatings = hotel.getRatings();
             }
         }
-        for(Map.Entry entry : cheapestHotels.entrySet())
-            System.out.println("Hotel: " + entry.getKey() + " Total Rates: " + entry.getValue());
-        return cheapestHotels;
+        System.out.println("Hotel: " + hotelName + " Total Rates: " + cheapestPrice);
+        return cheapestPrice;
     }
 
     public static void main(String[] args) {
