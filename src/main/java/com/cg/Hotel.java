@@ -4,12 +4,16 @@ public class Hotel {
     private String hotelName;
     private int weekdayRate_Regular;
     private int weekendRate_Regular;
+    private int weekdayRate_Reward;
+    private int weekendRate_Reward;
     private int ratings;
 
-    public Hotel(String hotelName, int weekdayRate_Regular, int weekendRate_Regular, int ratings) {
+    public Hotel(String hotelName, int weekdayRate_Regular, int weekendRate_Regular, int weekdayRate_Reward, int weekendRate_Reward, int ratings) {
         this.hotelName = hotelName;
         this.weekdayRate_Regular = weekdayRate_Regular;
         this.weekendRate_Regular = weekendRate_Regular;
+        this.weekdayRate_Reward = weekdayRate_Reward;
+        this.weekendRate_Reward = weekendRate_Reward;
         this.ratings =ratings;
     }
 

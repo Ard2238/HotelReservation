@@ -17,13 +17,17 @@ public class HotelReservation {
         System.out.println("Enter the Hotel's Name: ");
         String hotelName = input.nextLine();
         System.out.println("Enter the weekday rates for Regular customers: ");
-        int weekday_rate = input.nextInt(); input.nextLine();
+        int weekday_rate_regular = input.nextInt(); input.nextLine();
         System.out.println("Enter the weekend rates for Regular customers: ");
-        int weekend_rate = input.nextInt(); input.nextLine();
+        int weekend_rate_regular = input.nextInt(); input.nextLine();
+        System.out.println("Enter the weekday rates for Reward customers: ");
+        int weekday_rate_reward = input.nextInt(); input.nextLine();
+        System.out.println("Enter the weekend rates for Reward customers: ");
+        int weekend_rate_reward = input.nextInt(); input.nextLine();
         System.out.println("Enter the ratings for the hotel");
         int ratings = input.nextInt(); input.nextLine();
 
-        Hotel hotel = new Hotel(hotelName, weekday_rate, weekend_rate, ratings);
+        Hotel hotel = new Hotel(hotelName, weekday_rate_regular, weekend_rate_regular, weekday_rate_reward, weekend_rate_reward, ratings);
         hotelList.add(hotel);
         return hotelList;
     }

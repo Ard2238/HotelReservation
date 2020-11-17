@@ -19,9 +19,9 @@ public class HotelReservationTest {
 
     @Test
     public void givenHotel_WhenAdded_ShoudlAddHotel(){
-        Hotel hotel1 = new Hotel("LakeWood",110,90,3);
-        Hotel hotel2 = new Hotel("BridgeWood",150,50,4);
-        Hotel hotel3 = new Hotel("RidgeWood",220,150,5);
+        Hotel hotel1 = new Hotel("LakeWood",110,90,80,80,3);
+        Hotel hotel2 = new Hotel("BridgeWood",150,50,110,50,4);
+        Hotel hotel3 = new Hotel("RidgeWood",220,150, 100,40,5);
 
         hotelReservation.getHotelList().add(hotel1);
         hotelReservation.getHotelList().add(hotel2);
