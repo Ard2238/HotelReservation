@@ -31,6 +31,7 @@ public class HotelReservation {
         hotelList.add(hotel);
         return hotelList;
     }
+
     public Map<String, Customer> addCustomer(){
         System.out.println("Enter the Hotel you want to add the Customer to: " );
         String hotelName = input.nextLine();
@@ -75,7 +76,23 @@ public class HotelReservation {
                         break;
                     }
                 }
-            } else {
+            }else if(customerType.equalsIgnoreCase("Reward")){
+                switch (sdf1.format(commence)) {
+                    case "Monday":
+                    case "Tuesday":
+                    case "Wednesday":
+                    case "Thursday":
+                    case "Friday": {
+                        price += hotel.getWeekdayRate_Reward();
+                        break;
+                    }
+                    case "Saturday":
+                    case "Sunday": {
+                        price += hotel.getWeekendRate_Reward();
+                        break;
+                    }
+                }
+            }else{
                 System.out.println("Wrong Input.");
             }
             start.add(Calendar.DATE, 1);
@@ -85,22 +102,27 @@ public class HotelReservation {
     }
 
     public long findCheapestHotel(String customerType, String startDate, String endDate) throws ParseException {
-        Map<String, Long> cheapestHotels = new HashMap<>();
         long cheapestPrice = Long.MAX_VALUE;
         String hotelName = "";
         int bestRatings  = 0;
 
-        for(Hotel hotel : hotelList){
-            int price = calculateHotelPriceForGivenDates(hotel, startDate, endDate, customerType);
-            int rate = hotel.getRatings();
-            if(price <= cheapestPrice && rate > bestRatings){
-                cheapestPrice = price;
-                hotelName = hotel.getHotelName();
-                bestRatings = hotel.getRatings();
+        boolean validate = validateInput(startDate, endDate, customerType);
+        if (validate == false) {
+            System.out.println("Invalid Entries");
+            return 0;
+        }else{
+            for(Hotel hotel : hotelList){
+                int price = calculateHotelPriceForGivenDates(hotel, startDate, endDate, customerType);
+                int rate = hotel.getRatings();
+                if(price <= cheapestPrice && rate > bestRatings){
+                    cheapestPrice = price;
+                    hotelName = hotel.getHotelName();
+                    bestRatings = hotel.getRatings();
+                }
             }
+            System.out.println("Hotel: " + hotelName + " Rating: " + bestRatings + " Total Rates: " + cheapestPrice);
+            return cheapestPrice;
         }
-        System.out.println("Hotel: " + hotelName + " Total Rates: " + cheapestPrice);
-        return cheapestPrice;
     }
 
     public void findBestRatedHotel(String customerType, String startDate, String endDate) throws ParseException {
@@ -118,8 +140,26 @@ public class HotelReservation {
         System.out.println("Hotel: " + hotelName + " Total Rates: " + rates);
     }
 
+    public boolean validateInput(String startDate, String endDate, String customerType) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateStart = sdf.parse(startDate);
+        Date dateEnd = sdf.parse(endDate);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        start.setTime(dateStart);
+        end.setTime(dateEnd);
+        if(end.before(start) || (!customerType.equalsIgnoreCase("Regular") && !customerType.equalsIgnoreCase("Reward")))
+            return false;
+        return true;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(("Welcome to the Hotel Reservation Program"));
+
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel();
+        hotelReservation.addCustomer();
         
     }
 }

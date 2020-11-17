@@ -31,5 +31,17 @@ public class Hotel {
 
     public int getRatings() { return ratings; }
 
+    public int getWeekdayRate_Reward() { return weekdayRate_Reward; }
+
+    public void setWeekdayRate_Reward(int weekdayRate_Reward) { this.weekdayRate_Reward = weekdayRate_Reward; }
+
+    public int getWeekendRate_Reward() {
+        return weekendRate_Reward;
+    }
+
+    public void setWeekendRate_Reward(int weekendRate_Reward) {
+        this.weekendRate_Reward = weekendRate_Reward;
+    }
+
     public void setRatings(int ratings) { this.ratings = ratings; }
 }
