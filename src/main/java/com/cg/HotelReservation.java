@@ -40,11 +40,9 @@ public class HotelReservation {
         return customerHotelMap;
     }
 
-    public long findCheapestHotel(String customerType, String startDate, String endDate) throws ParseException {
-        Map<String, Long> cheapestHotels = new HashMap<>();
-        long cheapestPrice = Long.MAX_VALUE;
-        String hotelName = "";
-        int bestRatings  = 0;
+    public int calculateHotelPriceForGivenDates(Hotel hotel, String startDate, String endDate, String customerType) throws ParseException {
+        int price = 0;
+
         SimpleDateFormat sdf1 = new SimpleDateFormat("EEEE");
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -53,34 +51,43 @@ public class HotelReservation {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
 
-        for(Hotel hotel : hotelList){
-            int price = 0;
-            start.setTime(dateStart);
-            end.setTime(dateEnd);
-            Date commence = start.getTime();
-            while(start.before(end) || start.equals(end)){
-                if(customerType.equalsIgnoreCase("Regular")){
-                    switch (sdf1.format(commence)) {
-                        case "Monday":
-                        case "Tuesday":
-                        case "Wednesday":
-                        case "Thursday":
-                        case "Friday": {
-                            price += hotel.getWeekdayRate_Regular();
-                            break;
-                        }
-                        case "Saturday":
-                        case "Sunday": {
-                            price += hotel.getWeekendRate_Regular();
-                            break;
-                        }
+        start.setTime(dateStart);
+        end.setTime(dateEnd);
+        Date commence = start.getTime();
+        while(start.before(end) || start.equals(end)) {
+            if (customerType.equalsIgnoreCase("Regular")) {
+                switch (sdf1.format(commence)) {
+                    case "Monday":
+                    case "Tuesday":
+                    case "Wednesday":
+                    case "Thursday":
+                    case "Friday": {
+                        price += hotel.getWeekdayRate_Regular();
+                        break;
                     }
-                }else {
-                    System.out.println("Wrong Input.");
+                    case "Saturday":
+                    case "Sunday": {
+                        price += hotel.getWeekendRate_Regular();
+                        break;
+                    }
                 }
-                start.add(Calendar.DATE, 1);
-                commence = start.getTime();
+            } else {
+                System.out.println("Wrong Input.");
             }
+            start.add(Calendar.DATE, 1);
+            commence = start.getTime();
+        }
+        return price;
+    }
+
+    public long findCheapestHotel(String customerType, String startDate, String endDate) throws ParseException {
+        Map<String, Long> cheapestHotels = new HashMap<>();
+        long cheapestPrice = Long.MAX_VALUE;
+        String hotelName = "";
+        int bestRatings  = 0;
+
+        for(Hotel hotel : hotelList){
+            int price = calculateHotelPriceForGivenDates(hotel, startDate, endDate, customerType);
             int rate = hotel.getRatings();
             if(price <= cheapestPrice && rate > bestRatings){
                 cheapestPrice = price;
@@ -90,6 +97,21 @@ public class HotelReservation {
         }
         System.out.println("Hotel: " + hotelName + " Total Rates: " + cheapestPrice);
         return cheapestPrice;
+    }
+
+    public void findBestRatedHotel(String customerType, String startDate, String endDate) throws ParseException {
+        int ratings = 0;
+        int rates = 0;
+        String hotelName = "";
+        for(Hotel hotel : hotelList) {
+            int price = calculateHotelPriceForGivenDates(hotel, startDate, endDate, customerType);
+            if(hotel.getRatings() > ratings){
+                ratings = hotel.getRatings();
+                rates = price;
+                hotelName = hotel.getHotelName();
+            }
+        }
+        System.out.println("Hotel: " + hotelName + " Total Rates: " + rates);
     }
 
     public static void main(String[] args) {
